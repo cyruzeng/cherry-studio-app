@@ -19,18 +19,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # 或根据项目需求调整 Node.js 版本
+          node-version: '16'
 
       - name: Enable Corepack
         run: |
           corepack enable
-          corepack prepare yarn@4.10.3 --activate  # 安装指定的 yarn 版本
-
-      - name: Install dependencies using yarn
-        run: yarn install
+          corepack prepare yarn@4.10.3 --activate
 
       - name: Install node-fetch
-        run: yarn add node-fetch --dev
+        run: |
+          npm install node-fetch --save
+
+      - name: Install dependencies
+        run: yarn install
 
       - name: Generate database (drizzle-kit)
         run: npx drizzle-kit generate
@@ -51,7 +52,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'  # 仅在主分支上部署
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
@@ -59,6 +60,4 @@ jobs:
 
       - name: Deploy to Google Play (Android)
         run: |
-          # 在这里插入将构建上传到Google Play的步骤
-          # 可以使用 fastlane 或其他工具
           echo "Deploying Android to Google Play..."
