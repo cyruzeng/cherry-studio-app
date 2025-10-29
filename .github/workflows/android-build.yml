@@ -1,0 +1,56 @@
+name: Cherry Studio App Android Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # 或根据项目需求调整 Node.js 版本
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate database (drizzle-kit)
+        run: npx drizzle-kit generate
+
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build for Android
+        run: |
+          npx expo prebuild -p android
+          npx expo run:android --no-dev --minify
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'  # 仅在主分支上部署
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to Google Play (Android)
+        run: |
+          # 在这里插入将构建上传到Google Play的步骤
+          # 可以使用 fastlane 或其他工具
+          echo "Deploying Android to Google Play..."
