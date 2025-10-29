@@ -19,18 +19,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # 或根据项目需求调整 Node.js 版本
+          node-version: '16'
 
-      - name: Enable Corepack
-        run: |
-          corepack enable  # 启用 corepack
-
-      - name: Install correct version of Yarn
-        run: |
-          corepack prepare yarn@4.10.3 --activate  # 使用 corepack 激活指定版本的 yarn
+      - name: Install Yarn 1.x
+        run: npm install -g yarn@1.22.22  # 安装 yarn 1.x 版本
 
       - name: Install dependencies using yarn
-        run: yarn install  # 安装依赖
+        run: yarn install  # 使用 yarn 1.x 安装依赖
 
       - name: Generate database (drizzle-kit)
         run: npx drizzle-kit generate
