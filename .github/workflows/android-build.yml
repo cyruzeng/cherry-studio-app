@@ -19,19 +19,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16'  # 或根据项目需求调整 Node.js 版本
 
       - name: Enable Corepack
         run: |
           corepack enable
-          corepack prepare yarn@4.10.3 --activate
+          corepack prepare yarn@4.10.3 --activate  # 安装指定的 yarn 版本
 
-      - name: Install node-fetch
-        run: |
-          npm install node-fetch --save
-
-      - name: Install dependencies
+      - name: Install dependencies using yarn
         run: yarn install
+
+      - name: Install node-fetch using yarn
+        run: yarn add node-fetch --dev  # 使用 yarn 来安装 node-fetch
 
       - name: Generate database (drizzle-kit)
         run: npx drizzle-kit generate
@@ -52,7 +51,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'  # 仅在主分支上部署
 
     steps:
       - name: Checkout repository
