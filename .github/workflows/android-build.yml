@@ -19,24 +19,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # 或根据项目需求调整 Node.js 版本
+          node-version: '16'
 
-      - name: Enable Corepack
-        run: |
-          corepack enable
-          corepack prepare yarn@4.10.3 --activate
+      - name: Install Yarn 1.x
+        run: npm install -g yarn@1.22.22  # 安装 yarn 1.x 版本
 
       - name: Install dependencies using yarn
         run: yarn install
-
-      - name: Install node-fetch using yarn
-        run: yarn add node-fetch --dev  # 使用 yarn 来安装 node-fetch
-
-      - name: Add fetch to global scope
-        run: |
-          echo "require('node-fetch');" > ./fetch-polyfill.js
-          echo "global.fetch = require('./fetch-polyfill');" >> ./setup-fix.js
-          node ./setup-fix.js
 
       - name: Generate database (drizzle-kit)
         run: npx drizzle-kit generate
