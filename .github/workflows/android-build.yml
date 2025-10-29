@@ -26,11 +26,11 @@ jobs:
           corepack enable
           corepack prepare yarn@4.10.3 --activate  # 安装指定的 yarn 版本
 
-      - name: Install node-fetch
-        run: npm install node-fetch --save
-
-      - name: Install dependencies
+      - name: Install dependencies using yarn
         run: yarn install
+
+      - name: Install node-fetch
+        run: yarn add node-fetch --dev
 
       - name: Generate database (drizzle-kit)
         run: npx drizzle-kit generate
