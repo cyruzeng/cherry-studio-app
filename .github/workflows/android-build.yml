@@ -26,6 +26,9 @@ jobs:
           corepack enable
           corepack prepare yarn@4.10.3 --activate  # 安装指定的 yarn 版本
 
+      - name: Install node-fetch
+        run: npm install node-fetch --save
+
       - name: Install dependencies
         run: yarn install
 
