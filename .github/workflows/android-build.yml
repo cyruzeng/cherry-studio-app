@@ -21,6 +21,11 @@ jobs:
         with:
           node-version: '16'  # 或根据项目需求调整 Node.js 版本
 
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@4.10.3 --activate  # 安装指定的 yarn 版本
+
       - name: Install dependencies
         run: yarn install
 
